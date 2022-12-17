@@ -1,4 +1,5 @@
-import React from "react";
+//@ts-nocheck
+import React, { useState } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import CreateProduct from "./components/CreateProduct";
 import Home from "./components/Home";
@@ -15,11 +16,17 @@ const router = createBrowserRouter([
   },
 ]);
 
+// React Context
+export const ShoppingCartContext = React.createContext();
+
 function App() {
+  const cartState = useState([]);
   return (
-    <div className="App">
-      <RouterProvider router={router} />
-    </div>
+    <ShoppingCartContext.Provider value={cartState}>
+      <div className="App">
+        <RouterProvider router={router} />
+      </div>
+    </ShoppingCartContext.Provider>
   );
 }
 

@@ -1,10 +1,17 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { TProduct } from "../api/createProduct";
 import { getProducts } from "../api/getProducts";
+import { ShoppingCartContext } from "../App";
 
 const Products = () => {
   const [products, setProducts] = useState<TProduct[]>([]);
+  //@ts-ignore
+  const [cart, setCart] = useContext(ShoppingCartContext);
+
+  const handleAddToCart = (product: TProduct) => {
+    setCart([...cart, product]);
+  };
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -17,15 +24,15 @@ const Products = () => {
   return (
     <>
       {products.map((product) => (
-        <Col className="mb-4">
-          <Card key={product.id}>
+        <Col className="mb-4" key={product.id}>
+          <Card>
             <Card.Img variant="top" src="./assets/placeholder.svg" />
             <Card.Body>
               <Card.Title>{product.name}</Card.Title>
               <Card.Text className="mb-1 mt-2">${product.price}</Card.Text>
               <Card.Text>{product.description}</Card.Text>
               <div>
-                <Button>Add to cart</Button>
+                <Button onClick={() => handleAddToCart(product)}>Add to cart</Button>
               </div>
             </Card.Body>
           </Card>
@@ -33,27 +40,6 @@ const Products = () => {
       ))}
     </>
   );
-
-  //   return (
-  //     <Row lg={3}>
-  //       {products.map((product) => {
-  //         const { id, name, price, description } = product;
-  //         return (
-  //           <Col className="d-flex">
-  //             <Card className="flex-fill" key={id}>
-  //               <Card.Img variant="top" src={"#"} />
-  //               <Card.Body>
-  //                 <Card.Title>{name}</Card.Title>
-  //                 <Card.Text>{description}</Card.Text>
-  //                 <Card.Text>{price}</Card.Text>
-  //                 <Button variant="primary">Add to cart</Button>
-  //               </Card.Body>
-  //             </Card>
-  //           </Col>
-  //         );
-  //       })}
-  //     </Row>
-  //   );
 };
 
 export default Products;
