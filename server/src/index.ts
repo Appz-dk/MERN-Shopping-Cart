@@ -1,19 +1,20 @@
-import express, {Request, Response} from "express"
+import express, { Request, Response } from "express"
 import cors from "cors"
 import mongoose from "mongoose"
 
 import * as dotenv from 'dotenv'
 dotenv.config() 
 
-// Schema
-import CartSchema from "./Models/CartSchema"
+// Controllers
+import { createProductController } from "./controllers/createProductController"
+import { getProductsController } from "./controllers/getProductsController"
 
 // Setup
 const app = express()
 const PORT = 5000
 // Cors options
 var corsOptions = {
-    origin: 'http://loaclhost:5173',
+    origin: 'http://localhost:5173',
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
   }
 
@@ -21,13 +22,8 @@ var corsOptions = {
 app.use(express.json())
 app.use(cors(corsOptions))
 
-app.get("/",  async (req: Request, res: Response) => {
-    const newItem = new CartSchema({
-        title: "This works hopefully?"
-    })
-    const createdItem = await newItem.save()
-    res.send("hello world")
-})
+app.get("/products", getProductsController)
+app.post("/products", createProductController)
 
 const db = mongoose.connect(`${process.env.MONGO_URL}`).then(() => {
     app.listen(PORT)
