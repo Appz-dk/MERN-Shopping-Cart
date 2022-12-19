@@ -13,7 +13,7 @@ const Products: React.FC<Props> = ({ search }) => {
   //@ts-ignore
   const [cart, setCart] = useContext(ShoppingCartContext);
 
-  const handleAddToCart = async (product: TProduct) => {
+  const handleAddToCart = (product: TProduct) => {
     // Check if product already in cart
     // @ts-ignore
     const cartItemIndex = cart.findIndex((cartItem) => cartItem.id == product.id);
