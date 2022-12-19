@@ -5,6 +5,7 @@ import CreateProduct from "./components/CreateProduct";
 import Header from "./components/Header";
 import Home from "./components/Home";
 import ShoppingCart from "./components/CartItem";
+import Register from "./components/Register";
 
 const AppLayout = () => (
   <>
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: "/cart",
         element: <ShoppingCart />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
       },
     ],
   },

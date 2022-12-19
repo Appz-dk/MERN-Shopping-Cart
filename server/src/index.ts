@@ -9,6 +9,7 @@ dotenv.config()
 import { createProductController } from "./controllers/createProductController"
 import { getProductsController } from "./controllers/getProductsController"
 import { registerController } from "./controllers/registerController"
+import { loginController } from "./controllers/loginController"
 
 // Setup
 const app = express()
@@ -27,6 +28,8 @@ app.get("/products", getProductsController)
 app.post("/products", createProductController)
 
 app.post("/register", registerController)
+
+app.post("/login", loginController)
 
 const db = mongoose.connect(`${process.env.MONGO_URL}`).then(() => {
   app.listen(PORT)

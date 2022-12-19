@@ -11,5 +11,5 @@ export const createProductController = async (req: Request, res: Response) => {
     })
 
     const product = await newProduct.save()
-    res.send(JSON.stringify(product))
+    res.json(product)
 }
