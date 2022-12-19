@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
+import { ShoppingCartContext } from "../App";
 import { Col, Row, Image, Button } from "react-bootstrap";
-import { propTypes } from "react-bootstrap/esm/Image";
 import { BsTrash } from "react-icons/bs";
 import { TProduct } from "../api/createProduct";
 
@@ -9,11 +9,19 @@ type Props = {
 };
 
 const CartItem: React.FC<Props> = ({ product }) => {
+  //@ts-ignore
+  const [_, setCart] = useContext(ShoppingCartContext);
+
   // const product = {
   //   name: "Almond Milk",
   //   description: "This is delicious vegan milk!",
   //   price: "$2.99",
   // };
+
+  const handleCartItemDelete = (id: string) => {
+    //@ts-ignore
+    setCart((cart) => cart.filter((cartItem) => cartItem.id != id));
+  };
 
   return (
     <>
@@ -27,7 +35,10 @@ const CartItem: React.FC<Props> = ({ product }) => {
         </Col>
         <Col className="d-flex flex-column justify-content-between">
           <Row className="justify-content-end pe-2">
-            <Button className="col-5 bg-transparent border-0 px-0 py-0 text-end fs-5">
+            <Button
+              className="col-5 bg-transparent border-0 px-0 py-0 text-end fs-5"
+              onClick={() => handleCartItemDelete(product.id)}
+            >
               <BsTrash color="red" />
             </Button>
           </Row>
