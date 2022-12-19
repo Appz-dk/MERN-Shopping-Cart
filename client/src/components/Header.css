@@ -1,0 +1,9 @@
+#lblCartCount {
+    font-size: 12px;
+    background: #0d6efd;
+    color: #fff;
+    padding: 0 5px;
+    vertical-align: top;
+    margin-left: -8px;
+    border-radius: 100%;
+}

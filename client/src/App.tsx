@@ -1,18 +1,36 @@
 //@ts-nocheck
 import React, { useState } from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import CreateProduct from "./components/CreateProduct";
+import Header from "./components/Header";
 import Home from "./components/Home";
+import ShoppingCart from "./components/CartItem";
+
+const AppLayout = () => (
+  <>
+    <Header />
+    <Outlet />
+  </>
+);
 
 // children: [...components]
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <Home />,
-  },
-  {
-    path: "/create-product",
-    element: <CreateProduct />,
+    element: <AppLayout />,
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "/create-product",
+        element: <CreateProduct />,
+      },
+      {
+        path: "/cart",
+        element: <ShoppingCart />,
+      },
+    ],
   },
 ]);
 
