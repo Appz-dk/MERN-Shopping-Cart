@@ -3,6 +3,7 @@ import { Button, Card, Col } from "react-bootstrap";
 import { TProduct } from "../api/createProduct";
 import { getProducts } from "../api/getProducts";
 import { ShoppingCartContext } from "../App";
+import Product from "./Product";
 
 type Props = {
   search?: string;
@@ -13,7 +14,19 @@ const Products: React.FC<Props> = ({ search }) => {
   //@ts-ignore
   const [cart, setCart] = useContext(ShoppingCartContext);
 
-  const handleAddToCart = (product: TProduct) => {
+  const handleAddToCart = (
+    e: React.FormEvent,
+    product: TProduct,
+    amount: number,
+    setAmount: React.Dispatch<React.SetStateAction<number>>
+  ) => {
+    e.preventDefault();
+
+    // Change amount to 0 if user maliciously tries to bypass client side validation
+    if (typeof amount != "number" || amount < 0) {
+      setAmount(0);
+      return;
+    }
     // Check if product already in cart
     // @ts-ignore
     const cartItemIndex = cart.findIndex((cartItem) => cartItem.id == product.id);
@@ -28,8 +41,11 @@ const Products: React.FC<Props> = ({ search }) => {
       // Update cart state
       setCart(cartItems);
     } else {
-      setCart([...cart, { ...product, amount: 1 }]);
+      setCart([...cart, { ...product, amount }]);
     }
+
+    // reset amount of product
+    setAmount(0);
   };
 
   useEffect(() => {
@@ -46,19 +62,7 @@ const Products: React.FC<Props> = ({ search }) => {
       {products
         .filter((product) => (search ? product.name.toLowerCase().includes(search.toLowerCase()) : true))
         .map((product) => (
-          <Col className="mb-4" key={product.id}>
-            <Card>
-              <Card.Img variant="top" src="./assets/placeholder.svg" />
-              <Card.Body>
-                <Card.Title>{product.name}</Card.Title>
-                <Card.Text className="mb-1 mt-2">${product.price}</Card.Text>
-                <Card.Text>{product.description}</Card.Text>
-                <div>
-                  <Button onClick={() => handleAddToCart(product)}>Add to cart</Button>
-                </div>
-              </Card.Body>
-            </Card>
-          </Col>
+          <Product key={product.id} product={product} handleAddToCart={handleAddToCart} />
         ))}
     </>
   );
