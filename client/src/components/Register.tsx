@@ -1,14 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { Col, Container, Row, Form, Button } from "react-bootstrap";
 import { createUser } from "../api/createUser";
+import { loginUser } from "../api/loginUser";
+import { userContext } from "../App";
 
 const Register = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleRegister = (e: React.FormEvent) => {
+  // @ts-ignore
+  const [user, setUser] = useContext(userContext);
+
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    createUser({ username, password });
+    await createUser({ username, password });
+    const response = await loginUser({ username, password });
+    const { token, user } = response?.data;
+
+    setUser({ token, user });
+
+    navigate("/");
   };
 
   return (

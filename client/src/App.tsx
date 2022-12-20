@@ -41,15 +41,20 @@ const router = createBrowserRouter([
 
 // React Context
 export const ShoppingCartContext = React.createContext();
+export const userContext = React.createContext();
 
 function App() {
   const cartState = useState([]);
+  const userState = useState({});
+
   return (
-    <ShoppingCartContext.Provider value={cartState}>
-      <div className="App">
-        <RouterProvider router={router} />
-      </div>
-    </ShoppingCartContext.Provider>
+    <userContext.Provider value={userState}>
+      <ShoppingCartContext.Provider value={cartState}>
+        <div className="App">
+          <RouterProvider router={router} />
+        </div>
+      </ShoppingCartContext.Provider>
+    </userContext.Provider>
   );
 }
 

@@ -6,9 +6,9 @@ export type TUser = {
     password: string;
 };
 
-export const createUser = async (formData: TUser) => {
+export const loginUser = async (userInfo: TUser) => {
     try {
-        const response = await axios.post(`${API_URL}/register`, formData);
+        const response = await axios.post(`${API_URL}/login`, userInfo);
         return response
     } catch (error) {
         console.error(error);
