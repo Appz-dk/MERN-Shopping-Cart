@@ -13,7 +13,7 @@ type Props = {
 };
 
 const Product: React.FC<Props> = ({ product, handleAddToCart }) => {
-  const [amount, setAmount] = useState<number>(0);
+  const [amount, setAmount] = useState<number>(1);
   return (
     <>
       <Col className="mb-4" key={product.id}>
@@ -28,7 +28,7 @@ const Product: React.FC<Props> = ({ product, handleAddToCart }) => {
                 <input
                   className="col-2 text-center me-2"
                   type="number"
-                  min={0}
+                  min={1}
                   value={amount}
                   onChange={(e) => setAmount(+e.target.value)}
                 />

@@ -15,7 +15,11 @@ const CartModal: React.FC = (props) => {
       </Modal.Header>
       <Modal.Body className="show-grid">
         <Container>
-          {cart.length > 0 && cart.map((product) => <CartItem product={product} key={product.id} />)}
+          {cart.length > 0 ? (
+            cart.map((product) => <CartItem product={product} key={product.id} />)
+          ) : (
+            <p>No items in cart...</p>
+          )}
         </Container>
       </Modal.Body>
       <Modal.Footer>

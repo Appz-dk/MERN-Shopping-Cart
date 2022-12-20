@@ -24,7 +24,7 @@ const Products: React.FC<Props> = ({ search }) => {
 
     // Change amount to 0 if user maliciously tries to bypass client side validation
     if (typeof amount != "number" || amount < 1) {
-      setAmount(0);
+      setAmount(1);
       return;
     }
     // Check if product already in cart
@@ -37,7 +37,7 @@ const Products: React.FC<Props> = ({ search }) => {
       // Find item to update
       let cartItemToUpdate = cartItems[cartItemIndex];
       // Update amount by 1
-      cartItemToUpdate.amount++;
+      cartItemToUpdate.amount += amount;
       // Update cart state
       setCart(cartItems);
     } else {
@@ -45,7 +45,7 @@ const Products: React.FC<Props> = ({ search }) => {
     }
 
     // reset amount of product
-    setAmount(0);
+    setAmount(1);
   };
 
   useEffect(() => {
