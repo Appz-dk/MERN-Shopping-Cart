@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import { createProduct, TProduct } from "../api/createProduct";
+import { userContext } from "../App";
 
 const DEFAULT_FORM_STATE = {
   name: "",
@@ -11,6 +13,14 @@ const DEFAULT_FORM_STATE = {
 
 const CreateProduct = () => {
   const [form, setForm] = useState<TProduct>(DEFAULT_FORM_STATE);
+
+  // Protect route if user not logged in
+  // @ts-ignore
+  const [user] = useContext(userContext);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!user.token) navigate("/login");
+  }, []);
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // Get input values
