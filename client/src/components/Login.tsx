@@ -11,16 +11,18 @@ const Login = () => {
 
   // @ts-ignore
   const [user, setUser] = useContext(userContext);
+  const [error, setError] = useState("");
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const response = await loginUser({ username, password });
-    const { token, user } = response?.data;
+    const response = await loginUser({ username, password }, setUser);
 
-    setUser({ token, user });
-
-    navigate("/");
+    if (response && response?.response?.status != 200) {
+      setError(response?.response?.data);
+    } else {
+      navigate("/");
+    }
   };
 
   return (
@@ -48,9 +50,18 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </Form.Group>
-            <Button variant="primary" type="submit">
-              Login
-            </Button>
+            <Row>
+              <Col className="col-md-4">
+                <Button variant="primary" type="submit">
+                  Login
+                </Button>
+              </Col>
+              <Col>
+                <div className="mt-2">
+                  {error && <Form.Text className="text-danger fs-6 fw-bolder">{error}</Form.Text>}
+                </div>
+              </Col>
+            </Row>
           </Form>
         </Col>
       </Row>

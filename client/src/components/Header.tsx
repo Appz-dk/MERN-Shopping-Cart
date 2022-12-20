@@ -34,9 +34,11 @@ const Header = () => {
               <Nav.Link as={Link} to={"/"}>
                 Home
               </Nav.Link>
-              <Nav.Link as={Link} to={"/create-product"}>
-                New Product
-              </Nav.Link>
+              {user.token && (
+                <Nav.Link as={Link} to={"/create-product"}>
+                  New Product
+                </Nav.Link>
+              )}
             </div>
             <div className="d-flex align-items-center">
               <Col className="me-4">

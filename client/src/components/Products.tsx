@@ -23,7 +23,7 @@ const Products: React.FC<Props> = ({ search }) => {
     e.preventDefault();
 
     // Change amount to 0 if user maliciously tries to bypass client side validation
-    if (typeof amount != "number" || amount < 0) {
+    if (typeof amount != "number" || amount < 1) {
       setAmount(0);
       return;
     }

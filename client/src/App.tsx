@@ -59,7 +59,6 @@ function App() {
 
   const userState = useState(() => {
     const userInLocalStorage = getUserInLocalStorage("user");
-    console.log(userInLocalStorage);
     return userInLocalStorage ? JSON.parse(userInLocalStorage) : {};
   });
 

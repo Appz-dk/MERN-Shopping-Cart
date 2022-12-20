@@ -28,7 +28,7 @@ const Product: React.FC<Props> = ({ product, handleAddToCart }) => {
                 <input
                   className="col-2 text-center me-2"
                   type="number"
-                  min={1}
+                  min={0}
                   value={amount}
                   onChange={(e) => setAmount(+e.target.value)}
                 />
