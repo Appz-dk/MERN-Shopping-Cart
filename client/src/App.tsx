@@ -1,5 +1,5 @@
 //@ts-nocheck
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import CreateProduct from "./components/CreateProduct";
 import Header from "./components/Header";
@@ -8,6 +8,7 @@ import ShoppingCart from "./components/CartItem";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import Logout from "./components/Logout";
+import { getUserInLocalStorage, setUserInLocalStorage } from "./localStorage/localStorageApi";
 
 const AppLayout = () => (
   <>
@@ -55,7 +56,16 @@ export const userContext = React.createContext();
 
 function App() {
   const cartState = useState([]);
-  const userState = useState({});
+
+  const userState = useState(() => {
+    const userInLocalStorage = getUserInLocalStorage("user");
+    console.log(userInLocalStorage);
+    return userInLocalStorage ? JSON.parse(userInLocalStorage) : {};
+  });
+
+  useEffect(() => {
+    setUserInLocalStorage(JSON.stringify(userState[0]));
+  }, [userState]);
 
   return (
     <userContext.Provider value={userState}>
