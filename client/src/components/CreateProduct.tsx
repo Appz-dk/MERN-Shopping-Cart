@@ -6,6 +6,7 @@ const DEFAULT_FORM_STATE = {
   name: "",
   price: "",
   description: "",
+  id: "",
 };
 
 const CreateProduct = () => {
@@ -39,7 +40,14 @@ const CreateProduct = () => {
           <Form onSubmit={handleCreateProduct}>
             <Form.Group className="mb-3" controlId="product-name">
               <Form.Label>Name</Form.Label>
-              <Form.Control type="text" name="name" value={form.name} onChange={handleFormChange} required />
+              <Form.Control
+                type="text"
+                name="name"
+                value={form.name}
+                onChange={handleFormChange}
+                required
+                autoFocus={true}
+              />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="product-price">

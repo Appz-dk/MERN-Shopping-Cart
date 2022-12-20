@@ -6,6 +6,8 @@ import Header from "./components/Header";
 import Home from "./components/Home";
 import ShoppingCart from "./components/CartItem";
 import Register from "./components/Register";
+import Login from "./components/Login";
+import Logout from "./components/Logout";
 
 const AppLayout = () => (
   <>
@@ -34,6 +36,14 @@ const router = createBrowserRouter([
       {
         path: "/register",
         element: <Register />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/logout",
+        element: <Logout />,
       },
     ],
   },

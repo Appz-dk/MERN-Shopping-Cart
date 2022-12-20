@@ -1,7 +1,7 @@
-import { Button, Container, Nav, Navbar } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import { useContext, useState } from "react";
-import { ShoppingCartContext } from "../App";
+import { Link, useNavigate } from "react-router-dom";
+import { Button, Col, Container, Nav, Navbar } from "react-bootstrap";
+import { ShoppingCartContext, userContext } from "../App";
 import "./Header.css";
 import { BsCart } from "react-icons/bs";
 
@@ -10,6 +10,10 @@ import CartModal from "./CartModal";
 const Header = () => {
   //@ts-ignore
   const [cart] = useContext(ShoppingCartContext);
+  //@ts-ignore
+  const [user, setUser] = useContext(userContext);
+
+  const navigate = useNavigate();
 
   const [showCart, setShowCart] = useState(false);
 
@@ -34,11 +38,34 @@ const Header = () => {
                 New Product
               </Nav.Link>
             </div>
-            <div>
-              <Button className="bg-transparent border-0" onClick={() => setShowCart(true)}>
-                <BsCart size={22} />
-                <span id="lblCartCount">{itemsInCart}</span>
-              </Button>
+            <div className="d-flex align-items-center">
+              <Col className="me-4">
+                {!user.token && (
+                  <div className="d-flex gap-3">
+                    <Button className="btn-sm text-white" variant="outline-primary" onClick={() => navigate("/login")}>
+                      Login
+                    </Button>
+                    <Button
+                      className="btn-sm text-white"
+                      variant="outline-primary"
+                      onClick={() => navigate("/register")}
+                    >
+                      Register
+                    </Button>
+                  </div>
+                )}
+                {user.token && (
+                  <Button className="btn-sm text-white" variant="outline-primary" onClick={() => navigate("/logout")}>
+                    Logout
+                  </Button>
+                )}
+              </Col>
+              <Col>
+                <Button className="bg-transparent border-0 btn-sm" onClick={() => setShowCart(true)}>
+                  <BsCart size={22} />
+                  <span id="lblCartCount">{itemsInCart}</span>
+                </Button>
+              </Col>
             </div>
           </Nav>
         </Container>

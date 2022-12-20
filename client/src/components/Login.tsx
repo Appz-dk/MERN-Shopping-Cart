@@ -1,11 +1,10 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Col, Container, Row, Form, Button } from "react-bootstrap";
-import { createUser } from "../api/createUser";
 import { loginUser } from "../api/loginUser";
 import { userContext } from "../App";
 
-const Register = () => {
+const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -13,9 +12,9 @@ const Register = () => {
   // @ts-ignore
   const [user, setUser] = useContext(userContext);
 
-  const handleRegister = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    await createUser({ username, password });
+
     const response = await loginUser({ username, password });
     const { token, user } = response?.data;
 
@@ -28,7 +27,7 @@ const Register = () => {
     <Container className="col-lg-4 col-md-6 col-sm-8 col-10 mt-5">
       <Row>
         <Col>
-          <Form onSubmit={(e) => handleRegister(e)}>
+          <Form onSubmit={(e) => handleLogin(e)}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Username</Form.Label>
               <Form.Control
@@ -50,7 +49,7 @@ const Register = () => {
               />
             </Form.Group>
             <Button variant="primary" type="submit">
-              Register
+              Login
             </Button>
           </Form>
         </Col>
@@ -59,4 +58,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;
