@@ -15,12 +15,13 @@ const CreateProduct = () => {
   const [form, setForm] = useState<TProduct>(DEFAULT_FORM_STATE);
   const [error, setError] = useState("");
 
-  // Protect route if user not logged in
+  // Protect route if user not logged in && role is not admin
   // @ts-ignore
   const [user] = useContext(userContext);
   const navigate = useNavigate();
   useEffect(() => {
     if (!user.token) navigate("/login");
+    if (user.user.role !== "admin") navigate("/");
   }, []);
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {

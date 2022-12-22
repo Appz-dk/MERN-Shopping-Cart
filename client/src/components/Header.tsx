@@ -20,6 +20,8 @@ const Header = () => {
   // @ts-ignore
   const itemsInCart = cart.reduce((acc, item) => acc + item.amount, 0);
 
+  const hasAdminRole = user.user?.role === "admin";
+
   return (
     <>
       {/*@ts-ignore */}
@@ -34,7 +36,7 @@ const Header = () => {
               <Nav.Link as={Link} to={"/"}>
                 Home
               </Nav.Link>
-              {user.token && (
+              {user.token && hasAdminRole && (
                 <Nav.Link as={Link} to={"/create-product"}>
                   New Product
                 </Nav.Link>
