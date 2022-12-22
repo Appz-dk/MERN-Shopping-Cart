@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { BsTrash } from "react-icons/bs";
 import { FiEdit } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 import { TProduct } from "../api/createProduct";
 import { userContext } from "../App";
 
@@ -18,6 +19,7 @@ type Props = {
 
 const Product: React.FC<Props> = ({ product, handleAddToCart, handleDeleteProduct }) => {
   const [amount, setAmount] = useState<number>(1);
+  const navigate = useNavigate();
   // @ts-ignore
   const [user] = useContext(userContext);
 
@@ -48,7 +50,10 @@ const Product: React.FC<Props> = ({ product, handleAddToCart, handleDeleteProduc
               </Col>
               {user.token && hasAdminRole && (
                 <Col className="d-flex justify-content-center gap-3">
-                  <Button className="d-flex bg-transparent p-0 border-0 text-end fs-4" onClick={() => null}>
+                  <Button
+                    className="d-flex bg-transparent p-0 border-0 text-end fs-4"
+                    onClick={() => navigate(`/products/${product.id}`, { state: product })}
+                  >
                     <FiEdit color="black" />
                   </Button>
                   <Button

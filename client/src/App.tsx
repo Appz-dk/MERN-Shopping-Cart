@@ -9,6 +9,7 @@ import Register from "./components/Register";
 import Login from "./components/Login";
 import Logout from "./components/Logout";
 import { getUserInLocalStorage, setUserInLocalStorage } from "./localStorage/localStorageApi";
+import EditProduct from "./components/EditProduct";
 
 const AppLayout = () => (
   <>
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: "/create-product",
         element: <CreateProduct />,
+      },
+      {
+        path: "/products/:productId",
+        element: <EditProduct />,
       },
       {
         path: "/cart",
