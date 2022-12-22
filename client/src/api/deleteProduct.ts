@@ -1,10 +1,13 @@
 import axios, { AxiosError } from "axios"
 import { API_URL } from "./config";
 
-export const deletedProduct = async (id: string) => {
+export const deletedProduct = async (id: string, user: any) => {
     try {
 
         const response = await axios.delete(`${API_URL}/products`, {
+            headers: {
+                "Authorization": `Bearer ${user.token}`
+            },
             data: {
                 id
             }

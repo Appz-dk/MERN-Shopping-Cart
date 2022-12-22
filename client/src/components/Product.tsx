@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { BsTrash } from "react-icons/bs";
 import { FiEdit } from "react-icons/fi";
 import { TProduct } from "../api/createProduct";
+import { userContext } from "../App";
 
 type Props = {
   product: TProduct;
@@ -17,6 +18,10 @@ type Props = {
 
 const Product: React.FC<Props> = ({ product, handleAddToCart, handleDeleteProduct }) => {
   const [amount, setAmount] = useState<number>(1);
+  // @ts-ignore
+  const [user] = useContext(userContext);
+
+  const hasAdminRole = user.user?.role === "admin";
   return (
     <>
       <Col className="mb-4" key={product.id}>
@@ -41,17 +46,19 @@ const Product: React.FC<Props> = ({ product, handleAddToCart, handleDeleteProduc
                   </Button>
                 </form>
               </Col>
-              <Col className="d-flex justify-content-center gap-3">
-                <Button className="d-flex bg-transparent p-0 border-0 text-end fs-4" onClick={() => null}>
-                  <FiEdit color="black" />
-                </Button>
-                <Button
-                  className="d-flex bg-transparent p-0 border-0 text-end fs-4"
-                  onClick={() => handleDeleteProduct(product.id)}
-                >
-                  <BsTrash color="red" />
-                </Button>
-              </Col>
+              {user.token && hasAdminRole && (
+                <Col className="d-flex justify-content-center gap-3">
+                  <Button className="d-flex bg-transparent p-0 border-0 text-end fs-4" onClick={() => null}>
+                    <FiEdit color="black" />
+                  </Button>
+                  <Button
+                    className="d-flex bg-transparent p-0 border-0 text-end fs-4"
+                    onClick={() => handleDeleteProduct(product.id)}
+                  >
+                    <BsTrash color="red" />
+                  </Button>
+                </Col>
+              )}
             </Row>
           </Card.Body>
         </Card>

@@ -3,7 +3,7 @@ import { Button, Card, Col } from "react-bootstrap";
 import { TProduct } from "../api/createProduct";
 import { deletedProduct } from "../api/deleteProduct";
 import { getProducts } from "../api/getProducts";
-import { ShoppingCartContext } from "../App";
+import { ShoppingCartContext, userContext } from "../App";
 import Product from "./Product";
 
 type Props = {
@@ -14,6 +14,8 @@ const Products: React.FC<Props> = ({ search }) => {
   const [products, setProducts] = useState<TProduct[]>([]);
   //@ts-ignore
   const [cart, setCart] = useContext(ShoppingCartContext);
+  // @ts-ignore
+  const [user] = useContext(userContext);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -57,11 +59,14 @@ const Products: React.FC<Props> = ({ search }) => {
     setAmount(1);
   };
 
-  const handleDeleteProduct = (id: string) => {
+  const handleDeleteProduct = async (id: string) => {
     // send delete request
-    deletedProduct(id);
-    // Update product state
-    setProducts((prevState) => prevState.filter((product) => product.id !== id));
+    const response = await deletedProduct(id, user);
+
+    if (response?.status === 200) {
+      // Update product state
+      setProducts((prevState) => prevState.filter((product) => product.id !== id));
+    }
   };
 
   return (
