@@ -16,10 +16,10 @@ const Register = () => {
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     await createUser({ username, password });
-    const response = await loginUser({ username, password });
-    const { token, user } = response?.data;
+    const response = await loginUser({ username, password }, setUser);
+    // const { token, user } = response?.data;
 
-    setUser({ token, user });
+    // setUser({ token, user });
 
     navigate("/");
   };

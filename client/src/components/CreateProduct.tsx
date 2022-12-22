@@ -13,6 +13,7 @@ const DEFAULT_FORM_STATE = {
 
 const CreateProduct = () => {
   const [form, setForm] = useState<TProduct>(DEFAULT_FORM_STATE);
+  const [error, setError] = useState("");
 
   // Protect route if user not logged in
   // @ts-ignore
@@ -31,15 +32,21 @@ const CreateProduct = () => {
     });
   };
 
-  const handleCreateProduct = (e: React.FormEvent) => {
+  const handleCreateProduct = async (e: React.FormEvent) => {
     e.preventDefault();
 
     // Guard Clause
     if (!form.name || !form.price || !form.description) return;
     // Posting to database
-    createProduct(form);
+    const response = await createProduct(form, user);
     // Reset form
     setForm(DEFAULT_FORM_STATE);
+
+    if (response && response?.response?.status != 200) {
+      setError(response?.response?.data);
+    } else {
+      navigate("/");
+    }
   };
 
   return (
@@ -84,9 +91,18 @@ const CreateProduct = () => {
                 required
               />
             </Form.Group>
-            <Button variant="primary" type="submit">
-              Submit
-            </Button>
+            <Row>
+              <Col className="col-md-4">
+                <Button variant="primary" type="submit">
+                  Submit
+                </Button>
+              </Col>
+              <Col>
+                <div className="mt-2">
+                  {error && <Form.Text className="text-danger fs-6 fw-bolder">{error}</Form.Text>}
+                </div>
+              </Col>
+            </Row>
           </Form>
         </Col>
       </Row>

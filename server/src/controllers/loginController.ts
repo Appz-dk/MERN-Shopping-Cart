@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken"
 import { Types } from "mongoose";
 import User from "../Models/User"
 
+
 type TUserObject = {
     username: string,
     password?: string;
@@ -21,7 +22,7 @@ export const loginController = async (req: Request, res: Response) => {
         // Delete password from object before making a token ??
         const userObject: TUserObject = user.toObject()
         delete userObject.password
-        const token = jwt.sign(userObject, "super-secret-password")
+        const token = jwt.sign(userObject, `${process.env.JWT_SECRET}`)
         res.json({
             token,
             user

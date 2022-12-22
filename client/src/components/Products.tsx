@@ -59,11 +59,10 @@ const Products: React.FC<Props> = ({ search }) => {
   return (
     <>
       {/* Displaying and filtering products by search. If search == "", then displays all products */}
-      {products
-        .filter((product) => (search ? product.name.toLowerCase().includes(search.toLowerCase()) : true))
-        .map((product) => (
-          <Product key={product.id} product={product} handleAddToCart={handleAddToCart} />
-        ))}
+      {products &&
+        products
+          .filter((product) => (search ? product.name.toLowerCase().includes(search.toLowerCase()) : true))
+          .map((product) => <Product key={product.id} product={product} handleAddToCart={handleAddToCart} />)}
     </>
   );
 };
