@@ -35,12 +35,14 @@ const CartItem: React.FC<Props> = ({ product }) => {
         </Col>
         <Col className="d-flex flex-column justify-content-between">
           <Row className="justify-content-end pe-2">
-            <Button
-              className="col-5 bg-transparent border-0 px-0 py-0 text-end fs-5"
-              onClick={() => handleCartItemDelete(product.id)}
-            >
-              <BsTrash color="red" />
-            </Button>
+            <Col className="text-end px-0">
+              <Button
+                className="bg-transparent p-0 border-0 text-end fs-5"
+                onClick={() => handleCartItemDelete(product.id)}
+              >
+                <BsTrash color="red" />
+              </Button>
+            </Col>
           </Row>
           <Row className="justify-content-end">
             <Col className="col-4 text-end ps-0">

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { Button, Card, Col } from "react-bootstrap";
+import { Button, Card, Col, Row } from "react-bootstrap";
+import { BsTrash } from "react-icons/bs";
+import { FiEdit } from "react-icons/fi";
 import { TProduct } from "../api/createProduct";
 
 type Props = {
@@ -10,9 +12,10 @@ type Props = {
     amount: number,
     setAmount: React.Dispatch<React.SetStateAction<number>>
   ) => void;
+  handleDeleteProduct: (id: string) => void;
 };
 
-const Product: React.FC<Props> = ({ product, handleAddToCart }) => {
+const Product: React.FC<Props> = ({ product, handleAddToCart, handleDeleteProduct }) => {
   const [amount, setAmount] = useState<number>(1);
   return (
     <>
@@ -23,20 +26,33 @@ const Product: React.FC<Props> = ({ product, handleAddToCart }) => {
             <Card.Title>{product.name}</Card.Title>
             <Card.Text className="mb-1 mt-2">${product.price}</Card.Text>
             <Card.Text>{product.description}</Card.Text>
-            <div>
-              <form className="d-flex" onSubmit={(e) => handleAddToCart(e, product, amount, setAmount)}>
-                <input
-                  className="col-2 text-center me-2"
-                  type="number"
-                  min={1}
-                  value={amount}
-                  onChange={(e) => setAmount(+e.target.value)}
-                />
-                <Button type="submit" size="sm">
-                  Add to cart
+            <Row className="align-items-center">
+              <Col>
+                <form className="d-flex" onSubmit={(e) => handleAddToCart(e, product, amount, setAmount)}>
+                  <input
+                    className="col-2 text-center me-2"
+                    type="number"
+                    min={1}
+                    value={amount}
+                    onChange={(e) => setAmount(+e.target.value)}
+                  />
+                  <Button type="submit" size="sm">
+                    Add to cart
+                  </Button>
+                </form>
+              </Col>
+              <Col className="d-flex justify-content-center gap-3">
+                <Button className="d-flex bg-transparent p-0 border-0 text-end fs-4" onClick={() => null}>
+                  <FiEdit color="black" />
                 </Button>
-              </form>
-            </div>
+                <Button
+                  className="d-flex bg-transparent p-0 border-0 text-end fs-4"
+                  onClick={() => handleDeleteProduct(product.id)}
+                >
+                  <BsTrash color="red" />
+                </Button>
+              </Col>
+            </Row>
           </Card.Body>
         </Card>
       </Col>

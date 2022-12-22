@@ -11,6 +11,7 @@ import { createProductController } from "./controllers/createProductController"
 import { getProductsController } from "./controllers/getProductsController"
 import { registerController } from "./controllers/registerController"
 import { loginController } from "./controllers/loginController"
+import { deleteProductController } from "./controllers/deleteProductController"
 
 // Setup
 const app = express()
@@ -27,6 +28,7 @@ app.use(cors(corsOptions))
 
 app.get("/products", getProductsController)
 app.post("/products", createProductController)
+app.delete("/products", deleteProductController)
 
 app.post("/register", registerController)
 

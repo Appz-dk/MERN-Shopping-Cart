@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Button, Card, Col } from "react-bootstrap";
 import { TProduct } from "../api/createProduct";
+import { deletedProduct } from "../api/deleteProduct";
 import { getProducts } from "../api/getProducts";
 import { ShoppingCartContext } from "../App";
 import Product from "./Product";
@@ -13,6 +14,14 @@ const Products: React.FC<Props> = ({ search }) => {
   const [products, setProducts] = useState<TProduct[]>([]);
   //@ts-ignore
   const [cart, setCart] = useContext(ShoppingCartContext);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const databaseProdcuts = await getProducts();
+      setProducts(databaseProdcuts);
+    };
+    fetchProducts();
+  }, []);
 
   const handleAddToCart = (
     e: React.FormEvent,
@@ -48,13 +57,12 @@ const Products: React.FC<Props> = ({ search }) => {
     setAmount(1);
   };
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const databaseProdcuts = await getProducts();
-      setProducts(databaseProdcuts);
-    };
-    fetchProducts();
-  }, []);
+  const handleDeleteProduct = (id: string) => {
+    // send delete request
+    deletedProduct(id);
+    // Update product state
+    setProducts((prevState) => prevState.filter((product) => product.id !== id));
+  };
 
   return (
     <>
@@ -62,7 +70,14 @@ const Products: React.FC<Props> = ({ search }) => {
       {products &&
         products
           .filter((product) => (search ? product.name.toLowerCase().includes(search.toLowerCase()) : true))
-          .map((product) => <Product key={product.id} product={product} handleAddToCart={handleAddToCart} />)}
+          .map((product) => (
+            <Product
+              key={product.id}
+              product={product}
+              handleAddToCart={handleAddToCart}
+              handleDeleteProduct={handleDeleteProduct}
+            />
+          ))}
     </>
   );
 };
