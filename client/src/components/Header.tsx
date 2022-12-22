@@ -1,17 +1,19 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Col, Container, Nav, Navbar } from "react-bootstrap";
-import { ShoppingCartContext, userContext } from "../App";
+import { ShoppingCartContext } from "../App";
 import "./Header.css";
 import { BsCart } from "react-icons/bs";
 
 import CartModal from "./CartModal";
+import { useIsLoggedIn } from "../hooks/useIsLoggedIn";
+import { useIsAdmin } from "../hooks/useIsAdmin";
 
 const Header = () => {
   //@ts-ignore
   const [cart] = useContext(ShoppingCartContext);
-  //@ts-ignore
-  const [user, setUser] = useContext(userContext);
+  const isAdmin = useIsAdmin();
+  const isLoggedin = useIsLoggedIn();
 
   const navigate = useNavigate();
 
@@ -19,8 +21,6 @@ const Header = () => {
 
   // @ts-ignore
   const itemsInCart = cart.reduce((acc, item) => acc + item.amount, 0);
-
-  const hasAdminRole = user.user?.role === "admin";
 
   return (
     <>
@@ -36,7 +36,7 @@ const Header = () => {
               <Nav.Link as={Link} to={"/"}>
                 Home
               </Nav.Link>
-              {user.token && hasAdminRole && (
+              {isLoggedin && isAdmin && (
                 <Nav.Link as={Link} to={"/create-product"}>
                   New Product
                 </Nav.Link>
@@ -44,7 +44,7 @@ const Header = () => {
             </div>
             <div className="d-flex align-items-center">
               <Col className="me-4">
-                {!user.token && (
+                {!isLoggedin && (
                   <div className="d-flex gap-3">
                     <Button className="btn-sm text-white" variant="outline-primary" onClick={() => navigate("/login")}>
                       Login
@@ -58,7 +58,7 @@ const Header = () => {
                     </Button>
                   </div>
                 )}
-                {user.token && (
+                {isLoggedin && (
                   <Button className="btn-sm text-white" variant="outline-primary" onClick={() => navigate("/logout")}>
                     Logout
                   </Button>

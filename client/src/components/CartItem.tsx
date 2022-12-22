@@ -49,7 +49,7 @@ const CartItem: React.FC<Props> = ({ product }) => {
               <span className="">{product.amount}x</span>
             </Col>
             <Col className="col-6 text-end ps-0">
-              <span>{product.price}</span>
+              <span>{Number(product.price).toFixed(2)}</span>
             </Col>
           </Row>
         </Col>

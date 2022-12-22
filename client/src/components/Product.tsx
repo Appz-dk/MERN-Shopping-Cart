@@ -4,7 +4,8 @@ import { BsTrash } from "react-icons/bs";
 import { FiEdit } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { TProduct } from "../api/createProduct";
-import { userContext } from "../App";
+import { useIsAdmin } from "../hooks/useIsAdmin";
+import { useIsLoggedIn } from "../hooks/useIsLoggedIn";
 
 type Props = {
   product: TProduct;
@@ -20,10 +21,9 @@ type Props = {
 const Product: React.FC<Props> = ({ product, handleAddToCart, handleDeleteProduct }) => {
   const [amount, setAmount] = useState<number>(1);
   const navigate = useNavigate();
-  // @ts-ignore
-  const [user] = useContext(userContext);
+  const isAdmin = useIsAdmin();
+  const isLoggedin = useIsLoggedIn();
 
-  const hasAdminRole = user.user?.role === "admin";
   return (
     <>
       <Col className="mb-4" key={product.id}>
@@ -31,7 +31,7 @@ const Product: React.FC<Props> = ({ product, handleAddToCart, handleDeleteProduc
           <Card.Img variant="top" src="./assets/placeholder.svg" />
           <Card.Body>
             <Card.Title>{product.name}</Card.Title>
-            <Card.Text className="mb-1 mt-2">${product.price}</Card.Text>
+            <Card.Text className="mb-1 mt-2">${Number(product.price).toFixed(2)}</Card.Text>
             <Card.Text>{product.description}</Card.Text>
             <Row className="align-items-center">
               <Col>
@@ -48,8 +48,8 @@ const Product: React.FC<Props> = ({ product, handleAddToCart, handleDeleteProduc
                   </Button>
                 </form>
               </Col>
-              {user.token && hasAdminRole && (
-                <Col className="d-flex justify-content-center gap-3">
+              {isLoggedin && isAdmin && (
+                <Col className="d-flex justify-content-center gap-3 col-4">
                   <Button
                     className="d-flex bg-transparent p-0 border-0 text-end fs-4"
                     onClick={() => navigate(`/products/${product.id}`, { state: product })}

@@ -4,6 +4,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { TProduct } from "../api/createProduct";
 import { editProduct } from "../api/editProduct";
 import { userContext } from "../App";
+import { useIsAdmin } from "../hooks/useIsAdmin";
+import { useIsLoggedIn } from "../hooks/useIsLoggedIn";
 
 const DEFAULT_FORM_STATE = {
   name: "",
@@ -18,12 +20,16 @@ const EditProduct = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Protect route if user not logged in && role is not admin
   // @ts-ignore
   const [user] = useContext(userContext);
+
+  // Protect route if user not logged in && role is not admin
+  const isAdmin = useIsAdmin();
+  const isLoggedin = useIsLoggedIn();
+
   useEffect(() => {
-    if (!user.token) navigate("/login");
-    if (user.user.role !== "admin") navigate("/");
+    if (!isLoggedin) navigate("/login");
+    if (!isAdmin) navigate("/");
   }, []);
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
