@@ -38,11 +38,22 @@ const CreateProduct = () => {
     });
   };
 
+  const handleFormFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
+
+    // Get file value
+    const file = e.target?.files?.[0];
+    // Update state
+    setForm((prev) => {
+      return { ...prev, image: file };
+    });
+  };
+
   const handleCreateProduct = async (e: React.FormEvent) => {
     e.preventDefault();
 
     // Guard Clause
-    if (!form.name || !form.price || !form.description) return;
+    if (!form.name || !form.price || !form.description || !form.image) return;
     // Posting to database
     const response = await createProduct(form, user);
     // Reset form
@@ -97,6 +108,12 @@ const CreateProduct = () => {
                 required
               />
             </Form.Group>
+
+            <Form.Group className="mb-3" controlId="product-description">
+              <Form.Label>Image</Form.Label>
+              <Form.Control type="file" name="image" onChange={handleFormFileChange} />
+            </Form.Group>
+
             <Row>
               <Col className="col-md-4">
                 <Button variant="primary" type="submit">

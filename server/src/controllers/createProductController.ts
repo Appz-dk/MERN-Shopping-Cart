@@ -5,6 +5,8 @@ import jwt, { JwtPayload } from "jsonwebtoken"
 
 export const createProductController = async (req: Request, res: Response) => {
     const { price, name, description } = req.body
+    const image = req.file
+    // @ts-ignore
     const authorization = req.headers.authorization
     const token = authorization?.slice(7)
 
@@ -19,6 +21,7 @@ export const createProductController = async (req: Request, res: Response) => {
             price,
             name,
             description,
+            image: image?.filename
         })
 
         const product = await newProduct.save()

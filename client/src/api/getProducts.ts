@@ -5,6 +5,7 @@ type TDbProduct = {
     name: string;
     price: string;
     description: string;
+    image?: string;
     _id: string;
 };
 
@@ -16,6 +17,7 @@ export const getProducts = async () => {
             name: product.name,
             price: product.price,
             description: product.description,
+            image: product.image || "",
             id: product._id,
         }));
 

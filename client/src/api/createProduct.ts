@@ -6,14 +6,24 @@ export type TProduct = {
   price: string;
   description: string;
   id: string
+  image?: File
 };
 
-export const createProduct = async (formData: TProduct, user: any) => {
+
+export const createProduct = async (data: TProduct, user: any) => {
   try {
+
+    let formData = new FormData();
+    if (data.image) formData.append('image', data.image)
+
+    formData.append('name', data.name)
+    formData.append('description', data.description)
+    formData.append('price', data.price)
 
     const response = await axios.post(`${API_URL}/products`, formData, {
       headers: {
-        "Authorization": `Bearer ${user.token}`
+        "Authorization": `Bearer ${user.token}`,
+        'content-type': 'multipart/form-data'
       }
     });
 

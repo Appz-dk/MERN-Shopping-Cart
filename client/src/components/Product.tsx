@@ -3,6 +3,7 @@ import { Button, Card, Col, Row } from "react-bootstrap";
 import { BsTrash } from "react-icons/bs";
 import { FiEdit } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../api/config";
 import { TProduct } from "../api/createProduct";
 import { useIsAdmin } from "../hooks/useIsAdmin";
 import { useIsLoggedIn } from "../hooks/useIsLoggedIn";
@@ -28,7 +29,13 @@ const Product: React.FC<Props> = ({ product, handleAddToCart, handleDeleteProduc
     <>
       <Col className="mb-4" key={product.id}>
         <Card>
-          <Card.Img variant="top" src="./assets/placeholder.svg" />
+          {/* `${API_URL}/${product?.image}` */}
+          <Card.Img
+            variant="top"
+            src={product.image ? `${API_URL}/${product?.image}` : "./assets/placeholder.svg"}
+            width={180}
+            height={286}
+          />
           <Card.Body>
             <Card.Title>{product.name}</Card.Title>
             <Card.Text className="mb-1 mt-2">${Number(product.price).toFixed(2)}</Card.Text>
