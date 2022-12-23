@@ -33,6 +33,7 @@ import { registerController } from "./controllers/registerController"
 import { loginController } from "./controllers/loginController"
 import { deleteProductController } from "./controllers/deleteProductController"
 import { editProductController } from "./controllers/editProductController"
+import { isAdmin } from "./middleware/isAdmin"
 
 // Setup
 const app = express()
@@ -49,10 +50,10 @@ app.use(express.json())
 app.use(cors(corsOptions))
 
 app.get("/products", getProductsController)
-app.post("/products", upload.single('image'), createProductController)
-app.delete("/products", deleteProductController)
+app.post("/products", isAdmin, upload.single('image'), createProductController)
+app.delete("/products", isAdmin, deleteProductController)
 
-app.put("/products/:productId", upload.single('image'), editProductController)
+app.put("/products/:productId", isAdmin, upload.single('image'), editProductController)
 
 app.post("/register", registerController)
 

@@ -53,7 +53,7 @@ const CreateProduct = () => {
     e.preventDefault();
 
     // Guard Clause
-    if (!form.name || !form.price || !form.description || !form.image) return;
+    if (!form.name || !form.price || !form.description) return;
     // Posting to database
     const response = await createProduct(form, user);
     // Reset form
