@@ -3,8 +3,8 @@ import { Button, Card, Col, Row } from "react-bootstrap";
 import { BsTrash } from "react-icons/bs";
 import { FiEdit } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import { API_URL } from "../api/config";
-import { TProduct } from "../api/createProduct";
+import { API_URL } from "../services/config";
+import { TProduct } from "../services/createProduct";
 import { useIsAdmin } from "../hooks/useIsAdmin";
 import { useIsLoggedIn } from "../hooks/useIsLoggedIn";
 

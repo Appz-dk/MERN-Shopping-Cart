@@ -1,12 +1,22 @@
 // @ts-nocheck
 import React, { useContext } from "react";
-import { Button, Container, Modal } from "react-bootstrap";
+import { Button, Col, Container, Modal, Row } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import { ShoppingCartContext } from "../App";
 import CartItem from "./CartItem";
 
 const CartModal: React.FC = (props) => {
   //@ts-ignore
-  const [cart] = useContext(ShoppingCartContext);
+  const [cart, setCart] = useContext(ShoppingCartContext);
+  const navigate = useNavigate();
+
+  const totalCost = cart.reduce((sum, product) => sum + product.price * product.amount, 0);
+
+  const handleCheckout = () => {
+    setCart([]);
+    props.onHide();
+    navigate("/checkout");
+  };
 
   return (
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter">
@@ -21,8 +31,12 @@ const CartModal: React.FC = (props) => {
             <p>No items in cart...</p>
           )}
         </Container>
+        <Row>
+          <Col className="text-end me-2 fw-bold">Total Cost ${totalCost.toFixed(2)}</Col>
+        </Row>
       </Modal.Body>
       <Modal.Footer>
+        <Button onClick={handleCheckout}>Checkout</Button>
         <Button onClick={props.onHide}>Close</Button>
       </Modal.Footer>
     </Modal>

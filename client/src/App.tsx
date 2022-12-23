@@ -8,8 +8,9 @@ import ShoppingCart from "./components/CartItem";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import Logout from "./components/Logout";
-import { getUserInLocalStorage, setUserInLocalStorage } from "./localStorage/localStorageApi";
+import { getValueInLocalStorage, setValueInLocalStorage } from "./localStorage/localStorageApi";
 import EditProduct from "./components/EditProduct";
+import Checkout from "./components/Checkout";
 
 const AppLayout = () => (
   <>
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
         element: <ShoppingCart />,
       },
       {
+        path: "/checkout",
+        element: <Checkout />,
+      },
+      {
         path: "/register",
         element: <Register />,
       },
@@ -60,16 +65,20 @@ export const ShoppingCartContext = React.createContext();
 export const userContext = React.createContext();
 
 function App() {
-  const cartState = useState([]);
+  const cartState = useState(() => {
+    const cartInLocalStorage = getValueInLocalStorage("cart");
+    return cartInLocalStorage ? JSON.parse(cartInLocalStorage) : [];
+  });
 
   const userState = useState(() => {
-    const userInLocalStorage = getUserInLocalStorage("user");
+    const userInLocalStorage = getValueInLocalStorage("user");
     return userInLocalStorage ? JSON.parse(userInLocalStorage) : {};
   });
 
   useEffect(() => {
-    setUserInLocalStorage(JSON.stringify(userState[0]));
-  }, [userState]);
+    setValueInLocalStorage("user", JSON.stringify(userState[0]));
+    setValueInLocalStorage("cart", JSON.stringify(cartState[0]));
+  }, [userState, cartState]);
 
   return (
     <userContext.Provider value={userState}>

@@ -2,7 +2,8 @@ import React, { useContext } from "react";
 import { ShoppingCartContext } from "../App";
 import { Col, Row, Image, Button } from "react-bootstrap";
 import { BsTrash } from "react-icons/bs";
-import { TProduct } from "../api/createProduct";
+import { TProduct } from "../services/createProduct";
+import { API_URL } from "../services/config";
 
 type Props = {
   product: TProduct & { amount: number };
@@ -27,7 +28,12 @@ const CartItem: React.FC<Props> = ({ product }) => {
     <>
       <Row className="mb-3">
         <Col className="col-3">
-          <Image className="rounded" width={80} height={80} src="./assets/placeholder.svg" />
+          <Image
+            className="rounded"
+            width={80}
+            height={80}
+            src={product.image ? `${API_URL}/${product?.image}` : "./assets/placeholder.svg"}
+          />
         </Col>
         <Col className="ms-0">
           <Row className="fw-semibold mb-1">{product.name}</Row>

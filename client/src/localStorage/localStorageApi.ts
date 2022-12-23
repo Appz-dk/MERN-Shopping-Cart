@@ -1,9 +1,7 @@
-// @ts-nocheck
-
-export const setUserInLocalStorage = (userData) => {
-    localStorage.setItem("user", userData)
+export const setValueInLocalStorage = (key: string, userData: any) => {
+    localStorage.setItem(key, userData)
 }
 
-export const getUserInLocalStorage = () => {
-    return localStorage.getItem("user")
+export const getValueInLocalStorage = (key: string) => {
+    return localStorage.getItem(key)
 }

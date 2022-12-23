@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Col, Container, Row, Form, Button } from "react-bootstrap";
-import { loginUser } from "../api/loginUser";
+import { loginUser } from "../services/loginUser";
 import { userContext } from "../App";
 
 const Login = () => {

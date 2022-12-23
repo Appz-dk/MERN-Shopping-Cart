@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useNavigate, useLocation } from "react-router-dom";
-import { TProduct } from "../api/createProduct";
-import { editProduct } from "../api/editProduct";
+import { TProduct } from "../services/createProduct";
+import { editProduct } from "../services/editProduct";
 import { userContext } from "../App";
 import { useIsAdmin } from "../hooks/useIsAdmin";
 import { useIsLoggedIn } from "../hooks/useIsLoggedIn";

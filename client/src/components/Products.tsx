@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Button, Card, Col } from "react-bootstrap";
-import { TProduct } from "../api/createProduct";
-import { deletedProduct } from "../api/deleteProduct";
-import { getProducts } from "../api/getProducts";
+import { TProduct } from "../services/createProduct";
+import { deletedProduct } from "../services/deleteProduct";
+import { getProducts } from "../services/getProducts";
 import { ShoppingCartContext, userContext } from "../App";
 import Product from "./Product";
 
