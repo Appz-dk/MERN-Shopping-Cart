@@ -41,7 +41,18 @@ const EditProduct = () => {
     });
   };
 
-  const handleCreateProduct = async (e: React.FormEvent) => {
+  const handleFormFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
+
+    // Get file value
+    const file = e.target?.files?.[0];
+    // Update state
+    setForm((prev) => {
+      return { ...prev, image: file };
+    });
+  };
+
+  const handleEditProduct = async (e: React.FormEvent) => {
     e.preventDefault();
 
     // Guard Clause
@@ -65,7 +76,7 @@ const EditProduct = () => {
       <Row>
         <Col className="m-auto" lg={4} xs={8}>
           <h1 className="text-center mt-5 mb-4 fs-3">Edit Product</h1>
-          <Form onSubmit={handleCreateProduct}>
+          <Form onSubmit={handleEditProduct}>
             <Form.Group className="mb-3" controlId="product-name">
               <Form.Label>Name</Form.Label>
               <Form.Control
@@ -102,6 +113,12 @@ const EditProduct = () => {
                 required
               />
             </Form.Group>
+
+            <Form.Group className="mb-3" controlId="product-description">
+              <Form.Label>Image</Form.Label>
+              <Form.Control type="file" name="image" onChange={handleFormFileChange} />
+            </Form.Group>
+
             <Row>
               <Col className="col-md-4">
                 <Button variant="primary" type="submit">

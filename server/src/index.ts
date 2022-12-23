@@ -44,7 +44,7 @@ var corsOptions = {
 }
 
 // Middleware
-app.use(express.static("./images"))
+app.use(express.static("./images")) // Handles UI being able to "download" of images from ./images
 app.use(express.json())
 app.use(cors(corsOptions))
 
@@ -52,7 +52,7 @@ app.get("/products", getProductsController)
 app.post("/products", upload.single('image'), createProductController)
 app.delete("/products", deleteProductController)
 
-app.put("/products/:productId", editProductController)
+app.put("/products/:productId", upload.single('image'), editProductController)
 
 app.post("/register", registerController)
 

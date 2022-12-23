@@ -2,11 +2,18 @@ import { Response, Request } from "express"
 import Product from "../Models/Product"
 import jwt, { JwtPayload } from "jsonwebtoken"
 
+export type TProduct = {
+    name: string,
+    price: string,
+    description: string,
+    image?: string
+}
+
 
 export const createProductController = async (req: Request, res: Response) => {
     const { price, name, description } = req.body
+    //@ts-ignore
     const image = req.file
-    // @ts-ignore
     const authorization = req.headers.authorization
     const token = authorization?.slice(7)
 
@@ -16,12 +23,19 @@ export const createProductController = async (req: Request, res: Response) => {
         // Role based Auth
         if (user?.role !== "admin") return res.status(403).send("Authorization Error!")
 
-        // If user has role of admin create a new product
-        const newProduct = new Product({
-            price,
+        const updateObject: TProduct = {
             name,
             description,
-            image: image?.filename
+            price
+        }
+        // If an image was added
+        if (image) {
+            updateObject.image = image.filename
+        }
+
+        // If user has role of admin create a new product
+        const newProduct = new Product({
+            ...updateObject
         })
 
         const product = await newProduct.save()
