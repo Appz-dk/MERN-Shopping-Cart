@@ -22,7 +22,7 @@ In the project directory, you can run:
 
 ### `npm run dev`
 
-Runs both the client app in development mode.<br>
+Runs the client app in development mode.<br>
 Open [http://localhost:5173](http://localhost:5173) to view the client in the browser.
 
 ### `CD server`
@@ -57,7 +57,7 @@ Runs the Server app in development mode.<br>
 
 - #### `.env` - I have stored my MongoDB URL and JWT-Secret in a .env file both are needed for this application to function (The .env file is not part of this repository)
 
-#### `package.json` - Defines npm behaviors like the scripts defined in the next section of the README
+#### `package.json` - Defines npm behaviors like the scripts defined in the README's scripts section
 
 #### `.gitignore` - Tells git which files to ignore
 
